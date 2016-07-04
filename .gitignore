@@ -1,0 +1,164 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//Вариант номер 21
+//Площадь район кол-во_комнат стоимость
+struct kvart {
+        int p;
+        char r[20];
+        int k;
+        int s;
+    } kv;
+
+/* void sozdanie_zapolnenie () {
+    FILE *fd;
+    char k[50] = "| Площадь | Район | Кол-во комнат | Стоимость |\n";
+    fd = fopen("input.dat", "a");
+    fwrite(&k,sizeof(k),1,fd);
+    fclose(fd);
+} */
+
+void input_bin () {
+    printf("Создание нового файла\n");
+    FILE *fp;
+    char vi = 'q';
+    fp = fopen("input.dat", "wb");
+     // clrscr();
+  printf("\n Ввод товаров\n");
+ // do {
+    printf("\n Площадь: "); scanf("%d",&kv.p);
+    printf(" Район: "); scanf("%s",&kv.r);
+    printf(" количество комнат: "); scanf("%d",&kv.k);
+    printf(" стоимость: "); scanf("%d",&kv.s);
+    fwrite(&kv,sizeof(kv),1,fp); // запись в файл одной структуры
+    printf("\n Закончить?  y/n  ");
+    scanf("%s", &vi);
+
+ // } while (vi != 'y');
+    if (vi == 'y') {
+        printf("");
+    } else {
+        input_bin();
+    }
+    fclose(fp);
+}
+
+
+void inend_bin () {
+    printf("Добавить запись\n");
+    FILE *fp;
+    char vi = 'q';
+    fp = fopen("input.dat", "ab");
+     // clrscr();
+    printf("\n Ввод товаров\n");
+//  do {
+   printf("\n Площадь: "); scanf("%d",&kv.p);
+    printf(" Район: "); scanf("%s",&kv.r);
+    printf(" количество комнат: "); scanf("%d",&kv.k);
+    printf(" стоимость: "); scanf("%d",&kv.s);
+    fwrite(&kv,sizeof(kv),1,fp); // запись в файл одной структуры
+    printf("\n Закончить?  y/n  ");
+    scanf("%s", &vi);
+ // } while (vi != 'y');
+    if (vi == 'y') {
+        printf("");
+    } else {
+        inend_bin();
+    }
+    fclose(fp);
+}
+
+void print_bin () {
+    FILE *fp;
+    int i = 1, falseeof = 100;
+    fp = fopen("input.dat", "rb");
+    while (!feof(fp)) {
+        fread(&kv,sizeof(kv),1,fp);
+        printf("\n %3d Площадь - %3d, Район - %s, Кол-во комнат - %2d, Cтоимость - %d", i, kv.p,kv.r,kv.k,kv.s);
+        i++;
+    }
+    fclose(fp);
+}
+
+void main() {
+    system("chcp 1251");
+    int q,o,f;
+    char fr[20];
+    printf("\n Создать новый файл - 1\n Добавить запись - 2\n Пропустить - 3\n");
+    printf("   Ввод -> ");
+    scanf("%d", &q);
+    switch (q) {
+        case 1: input_bin(); break;
+        case 2: inend_bin(); break;
+        case 3: break;
+        default: printf("Ошибка"); break;
+    }
+
+    print_bin();
+
+      printf("\n\nВыполнить поиск? (y/n)");
+    char ac;
+    printf("   Ввод -> ");
+    scanf("%s", &ac);
+    if (ac == 'y') {
+
+    o = 0;
+    printf("\nПоиск в файле:\n");
+    printf(" по площади - 1\n по району - 2\n по кол-ву комнат - 3\n по стоимости - 4\n");
+        printf("   Ввод -> ");
+    scanf("%d", &o);
+
+
+    // ПОИСК
+    switch (o) {
+        case 1: printf("Введите площадь ->"); scanf("%d", &f);
+                FILE *fp;
+                int i = 1;
+                fp = fopen("input.dat", "rb");
+                while (!feof(fp)) {
+                      fread(&kv,sizeof(kv),1,fp);
+                     if (kv.p == f) {
+                    printf("\n %3d Площадь - %3d, Район - %s, Кол-во комнат - %2d, Cтоимость - %d", i, kv.p,kv.r,kv.k,kv.s);
+                    i++;
+                } }
+                fclose(fp);
+                break;
+        case 2: printf("Введите район ->"); scanf("%s", fr);
+                i = 1;
+                fp = fopen("input.dat", "rb");
+                char temp[20];
+                while (!feof(fp)) {
+                      fread(&kv,sizeof(kv),1,fp);
+                     if ( (strcmp(kv.r, fr)) == 0 ) {
+                    printf("\n %3d Площадь - %3d, Район - %s, Кол-во комнат - %2d, Cтоимость - %d", i, kv.p,kv.r,kv.k,kv.s);
+                    i++;
+                } }
+                fclose(fp);
+              break;
+        case 3: printf("Введите кол-во комнат ->"); scanf("%d", &f);
+                i = 1;
+                fp = fopen("input.dat", "rb");
+                while (!feof(fp)) {
+                      fread(&kv,sizeof(kv),1,fp);
+                     if (kv.k == f) {
+                    printf("\n %3d Площадь - %3d, Район - %s, Кол-во комнат - %2d, Cтоимость - %d", i, kv.p,kv.r,kv.k,kv.s);
+                    i++;
+                } }
+                fclose(fp);
+                break;
+        case 4: printf("Введите cтоимость ->"); scanf("%d", &f);
+                i = 1;
+                fp = fopen("input.dat", "rb");
+                while (!feof(fp)) {
+                      fread(&kv,sizeof(kv),1,fp);
+                     if (kv.s == f) {
+                    printf("\n %3d Площадь - %3d, Район - %s, Кол-во комнат - %2d, Cтоимость - %d", i, kv.p,kv.r,kv.k,kv.s);
+                    i++;
+                } }
+                fclose(fp);
+                break;
+        default: printf("Ошибка");
+    }
+    // ПОИСК ЗАКОНЧЕН
+    }
+}
